@@ -48,7 +48,7 @@ const historialHome = async(req, res) =>{
       return res.render('historial/homeHistorial',{
         pagina: 'Total de Movimientos Realizados',
         historicos,
-        usuario: usuario,
+        usuario: req.usuario,
         total,
         limit,
         offset,
@@ -103,7 +103,7 @@ const historialHomeEntredas = async(req, res) =>{
       return res.render('historial/homeHistorialEntrada',{
         pagina: 'Total de Movimientos Realizados',
         historicos,
-        usuario: usuario,
+        usuario: req.usuario,
         total,
         limit,
         offset,
@@ -157,7 +157,7 @@ const historialHomeSalidas = async(req, res) =>{
       return res.render('historial/homeHistorialSalida',{
         pagina: 'Total de Movimientos Realizados',
         historicos,
-        usuario: usuario,
+        usuario: req.usuario,
         total,
         limit,
         offset,

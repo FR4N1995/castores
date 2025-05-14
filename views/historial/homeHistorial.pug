@@ -6,14 +6,12 @@ block contenido
             span.font-normal Castores
         
         h2.text-center.text-2xl.font-extrabold= pagina 
-        //- snipet para mostrar un arreglo en la vista
-        //- pre= JSON.stringify(propiedades, undefiend, 2)
+         div(class="flex justify-center mt-2 mb-4")
+            div(class="sm:w-1/4 md:w-2/6 lg:w-1/6 flex flex-col lg:flex-row gap-2 ")
+                a(href="/administrador/historial" class="text-center inline-block w-full  px-2 py-2 md:py-2 cursor-pointer font-semibold rounded text-xs leading-5 bg-indigo-100 text-indigo-800 entrada") Todos        
+                a(href="/administrador/historialEntradas" class="text-center inline-block w-full  px-2 py-2 md:py-2 cursor-pointer font-semibold rounded text-xs leading-5 bg-indigo-100 text-indigo-800 entrada") Entrrada        
+                a(href="/administrador/historialSalidas" class="text-center inline-block w-full  px-2 py-2 md:py-2 cursor-pointer font-semibold rounded text-xs leading-5 bg-indigo-100 text-indigo-800 entrada") salida 
         if historicos.length
-            div(class="flex justify-center mt-2 mb-4")
-                div(class="sm:w-1/4 md:w-2/6 lg:w-1/6 flex flex-col lg:flex-row gap-2 ")
-                    a(href="/administrador/historial" class="text-center inline-block w-full  px-2 py-2 md:py-2 cursor-pointer font-semibold rounded text-xs leading-5 bg-indigo-100 text-indigo-800 entrada") Todos        
-                    a(href="/administrador/historialEntradas" class="text-center inline-block w-full  px-2 py-2 md:py-2 cursor-pointer font-semibold rounded text-xs leading-5 bg-indigo-100 text-indigo-800 entrada") Entrrada        
-                    a(href="/administrador/historialSalidas" class="text-center inline-block w-full  px-2 py-2 md:py-2 cursor-pointer font-semibold rounded text-xs leading-5 bg-indigo-100 text-indigo-800 entrada") salida        
             div(class="bg-white shadow rounded-lg")
                 ul(class="divide-y divide-gray-200")
                     each historico in historicos
