@@ -1,0 +1,75 @@
+extends ../layout/admin
+
+block contenido 
+    .py-10 
+        h1.text-4xl.my-7.font-bold.text-center Grupo 
+            span.font-normal Castores
+        
+        h2.text-center.text-2xl.font-extrabold= pagina
+ 
+        if(usuario.admin === 1)
+            a(href='/administrador/crearProducto' class="rounded py-2 px-10 bg-blue-600 hover:bg-blue-700 text-sm font-bold text-white text-center uppercase my-5 inline-block w-full sm:w-auto capitalize") agregar Producto 
+        //- snipet para mostrar un arreglo en la vista
+        //- pre= JSON.stringify(propiedades, undefiend, 2)
+        if productos.length        
+            div(class="bg-white shadow rounded-lg")
+                ul(class="divide-y divide-gray-200")
+                    each producto in productos
+                        li  
+                            div(class='p-2 w-full flex flex-col sm:flex-row sm:place-items-center sm:justify-between space-y-3 gap-4')
+                                div(class="sm:w-2/4 md:w-3/6 lg:w-4/6 space-y-1") 
+                                    //- h1(class="font-bold text-2xl text-gray-700 truncate capitalize")= `Modelo: ${producto.modelo?.nombre ?? 'Mod Eliminado'} - ${producto.modelo?.referencia ?? ''}`
+                                    p.text-2xl.text-gray-600.capitalize Producto 
+                                        span(class="text-gray-800 font-bold capitalize")= producto.nombre
+                                    p(class="text-2xl text-gray-700 capitalize")= 'Cantidad: '
+                                        span(class="text-gray-800 font-bold")= producto.cantidad
+                                    
+                                    
+                                div(class="sm:w-1/4 md:w-2/6 lg:w-1/6 flex flex-col lg:flex-row gap-2 opciones")
+                                    if(usuario.admin === 1)
+
+                                        button(type="button" data-producto-id=`${producto.id}` class=`${producto.estado ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'} cambiar-estado w-full px-2 py-2 md:py-1 cursor-pointer font-semibold rounded text-xs leading-5`)= `${producto.estado ? 'Alta' : 'Baja'}`
+
+
+                                        a(href=`/administrador/entrada/${producto.id}` class=`text-center inline-block w-full  px-2 py-2 md:py-2 cursor-pointer font-semibold rounded text-xs leading-5 bg-indigo-100 text-indigo-800 entrada`) Entrada
+                                            
+                                            
+                                        //- a(href=`/administrador/salida/${producto.id}` class="text-center w-full px-2 py-2 md:py-3 cursor-pointer font-semibold rounded text-xs leading-5 text-red-800 bg-red-100 salida") Salida
+                                        span(class="text-center w-full px-2 py-2 md:py-3 cursor-pointer font-semibold rounded text-xs leading-5 text-red-800 bg-red-100 salida opacity-50 cursor-not-allowed") Salida
+
+                                    else
+
+                                        button(type="button" data-producto-id=`${producto.id}` class=`${producto.estado ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'} cambiar-estado w-full px-2 py-2 md:py-1 cursor-pointer font-semibold rounded text-xs leading-5 opacity-50 cursor-not-allowed` disabled)= `${producto.estado ? 'Alta' : 'Baja'}`
+
+
+                                        //- a(href=`/administrador/entrada/${producto.id}` class=`text-center inline-block w-full  px-2 py-2 md:py-2 cursor-pointer font-semibold rounded text-xs leading-5 bg-indigo-100 text-indigo-800 entrada`) Entrada
+                                        span(class=`text-center inline-block w-full  px-2 py-2 md:py-2 cursor-pointer font-semibold rounded text-xs leading-5 bg-indigo-100 text-indigo-800 entrada opacity-50 cursor-not-allowed`) Entrada
+                                            
+                                            
+                                        a(href=`/administrador/salida/${producto.id}` class="text-center w-full px-2 py-2 md:py-3 cursor-pointer font-semibold rounded text-xs leading-5 text-red-800 bg-red-100 salida") Salida
+                                    
+                div(class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6")
+                    //- paginación móvil
+                    div(class="flex-1 flex justify-between sm:hidden")
+                        a(href=`/administrador/home?pagina=${paginaActual - 1}` class=`${paginaActual === "1" ? "pointer-events-none" : ""} relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-500`) Anterior
+                        a(href=`/administrador/home?pagina=${paginaActual + 1}` class=`${paginaActual === paginas ? "pointer-events-none" : ""} relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-500`) Siguiente
+
+                    //- paginación dispositivos más grandes
+                    div(class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between")
+                        p(class="text-sm text-gray-700 gap-2")
+                            span(class="font-medium") #{offset + 1} a 
+                            span(class="font-medium") #{total < limit + offset ? total : limit + offset} de 
+                            span(class="font-medium") #{total} Resultados
+
+                    div(class="hidden sm:block")
+                        nav(class="relative z-0 inline-flex rounded-md shadow-md")
+                            - var n = 1
+                            while n <= paginas
+                                a(href=`/administrador/home?pagina=${n}` class=`${paginaActual == n ? 'bg-blue-50 border-blue-500 text-blue-600' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'} relative inline-flex items-center px-4 py-2 border text-sm font-medium`) #{n++}
+        else 
+            p(class="text-center") Todavia no tienes Productos, Empieza creando uno
+
+
+block scripts 
+    script(src="/js/cambiarEstado.js")
+    script(src="/js/menuHamburguesa.js")

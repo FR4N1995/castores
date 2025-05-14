@@ -1,0 +1,60 @@
+extends ../layout/admin
+
+block contenido 
+    .py-10 
+        h1.text-4xl.my-7.font-bold.text-center Grupo 
+            span.font-normal Castores
+        
+        h2.text-center.text-2xl.font-extrabold= pagina 
+        //- snipet para mostrar un arreglo en la vista
+        //- pre= JSON.stringify(propiedades, undefiend, 2)
+        if historicos.length
+            div(class="flex justify-center mt-2 mb-4")
+                div(class="sm:w-1/4 md:w-2/6 lg:w-1/6 flex flex-col lg:flex-row gap-2 ")
+                    a(href="/administrador/historial" class="text-center inline-block w-full  px-2 py-2 md:py-2 cursor-pointer font-semibold rounded text-xs leading-5 bg-indigo-100 text-indigo-800 entrada") Todos        
+                    a(href="/administrador/historialEntradas" class="text-center inline-block w-full  px-2 py-2 md:py-2 cursor-pointer font-semibold rounded text-xs leading-5 bg-indigo-100 text-indigo-800 entrada") Entrrada        
+                    a(href="/administrador/historialSalidas" class="text-center inline-block w-full  px-2 py-2 md:py-2 cursor-pointer font-semibold rounded text-xs leading-5 bg-indigo-100 text-indigo-800 entrada") salida        
+            div(class="bg-white shadow rounded-lg")
+                ul(class="divide-y divide-gray-200")
+                    each historico in historicos
+                        li  
+                            div(class='p-2 w-full flex flex-col sm:flex-row sm:place-items-center sm:justify-between space-y-3 gap-4')
+                                div(class="sm:w-2/4 md:w-3/6 lg:w-4/6 space-y-1") 
+                                    p.text-gray-600.capitalize Tipo:  
+                                        span(class="text-gray-800 font-bold capitalize")= historico.tipo
+                                    p.text-gray-600.capitalize Realizado por:  
+                                        span(class="text-gray-800 font-bold capitalize")= historico.usuario.nombre
+                                    p.text-gray-600.capitalize email:  
+                                        span(class="text-gray-800 font-bold capitalize")= historico.usuario.email
+                                    p.text-gray-600.capitalize Producto:  
+                                        span(class="text-gray-800 font-bold capitalize")= historico.producto.nombre
+                                    p.text-gray-600.capitalize Cantidad:  
+                                        span(class="text-gray-800 font-bold capitalize")= historico.producto.cantidad
+                                    p.text-2xl.text-gray-600.capitalize fecha de registro:  
+                                        span(class="text-gray-800 font-bold capitalize")= (formatearFecha(historico.createdAt))
+
+                div(class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6")
+                    //- paginación móvil
+                    div(class="flex-1 flex justify-between sm:hidden")
+                        a(href=`/administrador/historial?pagina=${paginaActual - 1}` class=`${paginaActual === "1" ? "pointer-events-none" : ""} relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-500`) Anterior
+                        a(href=`/administrador/historial?pagina=${paginaActual + 1}` class=`${paginaActual === paginas ? "pointer-events-none" : ""} relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-500`) Siguiente
+
+                    //- paginación dispositivos más grandes
+                    div(class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between")
+                        p(class="text-sm text-gray-700 gap-2")
+                            span(class="font-medium") #{offset + 1} a 
+                            span(class="font-medium") #{total < limit + offset ? total : limit + offset} de 
+                            span(class="font-medium") #{total} Resultados
+
+                    div(class="hidden sm:block")
+                        nav(class="relative z-0 inline-flex rounded-md shadow-md")
+                            - var n = 1
+                            while n <= paginas
+                                a(href=`/administrador/historial?pagina=${n}` class=`${paginaActual == n ? 'bg-blue-50 border-blue-500 text-blue-600' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'} relative inline-flex items-center px-4 py-2 border text-sm font-medium`) #{n++}
+        else 
+            p(class="text-center") Todavia no tienes Productos, Empieza creando uno
+
+
+block scripts 
+    script(src="/js/cambiarEstado.js")
+    script(src="/js/menuHamburguesa.js")

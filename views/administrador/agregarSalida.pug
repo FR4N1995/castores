@@ -1,0 +1,33 @@
+extends ../layout/admin
+
+block contenido 
+    .py-10 
+        h1.text-4xl.my-7.font-bold.text-center Grupo 
+            span.font-normal Castores
+        
+        h2.text-center.text-2xl.font-extrabold= pagina
+
+        
+        if errores 
+            div(class="max-w-md mx-auto my-10 ")
+                each error in errores 
+                    p.bg-red-600.text-white.uppercase.text-xs-text-center.p-2.mb-1.font-bold= error.msg
+
+        
+        a(class="rounded capitalize py-2 px-10 bg-blue-600 hover:bg-blue-700 text-sm font-bold text-center text-white my-5 inline-block w-full sm:w-auto" href="/administrador/home") volver
+
+
+        div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-4xl my-10 md:px-10")
+            form.space-y-8(method="POST") 
+                .space-y-5 
+                    h3.text-lg.leading-6.font-medium.text-gray-900 Informacion General
+                    p.text-gray-600.capitalize agrega Salida de Producto
+      
+                    div 
+                        label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="cantidad") Cantidad
+                        input#titulo.w-full.py-2.px-3.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Cantidad: 7" type="number" name="cantidad" value = datos.cantidad ? datos.cantidad : '' )
+              
+             
+                       
+
+                    input( class="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded text-white font-bold uppercase cursor-pointer " type="submit" value="agregar Salida producto")
